@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en">
+  <head>
+    <link
+      rel="icon"
+      href="https://cdn.glitch.com/b3264a77-88be-454a-b1e9-ce5ac5fa31fc%2Fgraph.png?v=1625026896992"
+    />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>
+      Graph Theory
+    </title>
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- import the webpage's javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <maininterface>
+    <selectionPane>
+    <left class="mainInf">
+      <p style="margin-left:20px">
+        Digraph On/Off
+        <input
+        type="checkbox"
+        id="myCheck"
+        style="margin-left:20px"
+        onclick="changeToFromDi()"
+      />
+        <p style="margin-left:20px">
+        Weight Entry Automatic
+        <input
+        type="checkbox"
+        id="edgeCheck"
+        style="margin-left:20px"
+        onclick="automaticWeights()"
+      />
+      </p>
+      
+      <h2 style="margin-left:10px" id="edges">Edges List</h2>
+
+      <edges class="block">
+        <attempt class="itemconfiguration">
+          <search id="searchtool">
+            <label for="fname">Search:</label>
+            <br />
+            <label for="fname">V1:</label>
+            <input type="text" id="v1In" name="city" list="v1" size="1" />
+
+            <label for="fname">(Optional) V2:</label>
+            <input type="text" id="v2In" name="city" list="v2" size="1" />
+
+            <button onclick="interpretSearch()">Enter</button>
+          </search>
+          <br /><br />
+          <edgeslist class="auto" id="edgeslist"> </edgeslist>
+        </attempt>
+      </edges>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <label for="fname" style="margin-left:20px"
+        >Find Shortest Path Between:</label
+      >
+      <br />
+      <label for="fname" style="margin-left:20px">V1:</label>
+      <input type="text" id="v1" name="city" list="v1" size="1" />
+
+      <label for="fname">V2:</label>
+      <input type="text" id="v2" name="city" list="v2" size="1" />
+
+      <button onclick="findShortestPath()">Enter</button>
+
+      <br />
+      <br />
+      <label for="fname" style="margin-left:20px">Search Visualization:</label>
+      <br />
+      <label for="fname" style="margin-left:20px">V1:</label>
+      <input type="text" id="vSearch" name="city" list="v1" size="1" />
+
+      <button onclick="DFS()">DFS</button>
+
+      <button onclick="BFS()">BFS</button>
+      <br />
+      <br />
+      <path id="path"> </path>
+    </left>
+  </selectionPane>
+    <!--<div class="split right">!-->
+    <center>
+      <canvasSpace>
+      <canvas
+        id="canvasArea"
+        height="500px"
+        width="800px"
+        style="border:2px solid black; background-color: white;"
+      ></canvas>
+        </canvasSpace>
+      <p id="demo"></p>
+    </center>
+  </maininterface>
+  <!--</div>-->
+
+  <instructions display="block">
+    <about display="block">
+      <p style="font-weight: bold; font-size: 40px">About</p>
+      <columns>
+        <div style="vertical-align:top;" class="col1">
+          <img
+            src="https://cdn.glitch.com/b3264a77-88be-454a-b1e9-ce5ac5fa31fc%2Fundirected.png?v=1625070088405"
+            alt="img"
+            style="width:150px;height:150px;"
+          />
+        </div>
+        <help class="col2">
+          A graph consists of a finite number of vertices and edges connecting
+          said vertices.
+          <br />
+          A directed graph (digraph) describes a graph that has edges with
+          specified directions for traversal.
+          <br />
+          In an undirected graph, edges can be traversed in either direction.
+          <br />
+          An edge also can have an assigned weight, abbreviated here as w,
+          representing how expensive it is to travel on said edge.
+          <br />
+          <br />
+          This website allows you to create your own graphs and learn about
+          different algorithms!
+          <br />
+          Dijkstra's algorithm is implemented to find the shortest distance
+          between any two points.
+          <br />
+          This is applicable for mapping software, networking problems, and
+          abstract machines.
+          <br />
+          You also can visualize Breadth First Search (BFS) and Depth First Search (DFS)!
+          <br />
+          I am currently working on adding minimum spanning tree algorithms for the next update!
+        </help>
+        <digraph style="vertical-align:top;" class="col3">
+          <img
+            src="https://cdn.glitch.com/b3264a77-88be-454a-b1e9-ce5ac5fa31fc%2Fdigraph.png?v=1625070099948"
+            alt="img"
+            style="width:150px;height:125px;"
+          />
+        </digraph>
+      </columns>
+    </about>
+
+    <br />
+    <br />
+    <br />
+    <div display="block" clear="both">
+      <div style="font-weight: bold; font-size: 40px">Instructions</div>
+      <table class="center">
+        <tr bgcolor="#98c8eb">
+          <th style="font-weight: bold;">Goal</th>
+          <th style="font-weight: bold;">Action</th>
+        </tr>
+        <tr>
+          <th style="font-weight: bold;">Create Vertice</th>
+          <th>Tap anywhere on canvas</th>
+        </tr>
+        <tr>
+          <th style="font-weight: bold;">Create Edge</th>
+          <th>
+            Tap existing vertice then tap second vertice to create connection.
+            Any vertice tapped will connect to the currently highlighted
+            vertice.
+          </th>
+        </tr>
+        <tr>
+          <th style="font-weight: bold;">Create Directed Edge</th>
+          <th>
+            Three buttons appear in the pane when connecting
+            vertices in a digraph. Select a button OR use the keyboard shortcut
+            1, 2, or 3 (each corresponding with one of the buttons).
+          </th>
+        </tr>
+        <tr>
+          <th style="font-weight: bold;">Unselect a Vertice or Exit Display Mode</th>
+          <th>Tap anywhere on canvas outside of vertices.</th>
+        </tr>
+        <tr>
+          <th style="font-weight: bold;">Delete a Vertice</th>
+          <th>Tap vertice twice.</th>
+        </tr>
+        <tr>
+          <th style="font-weight: bold;">Delete Edge or Change Edge Weight</th>
+          <th>Tap the two vertices connecting the edges.</th>
+        </tr>
+      </table>
+
+      <br />
+      <br />
+      <br />
+    </div>
+  </instructions>
+  <footer class="footer">
+    Created by Grace McClurg 2021.
+    <br />
+    <br />
+  </footer>
+
+  <body class="body">
+    <!--
+    <div id="left"></div>
+    <div id="right"></div>
+    <div id="top"></div>
+    <div id="bottom"></div>
+    <div id="footer"></div>-->
+    <h1></h1>
+  </body>
+</html>
