@@ -569,17 +569,11 @@ function canvasClick(event) {
       closeButtons();
     }
 
-    if (screen.width < 1100) {
-      var rect = canvas.getBoundingClientRect();
+   var rect = canvas.getBoundingClientRect();
       var scaleX = canvas.width / rect.width; // relationship bitmap vs. element for X
       var scaleY = canvas.height / rect.height;
       var x = (event.clientX - rect.left) * scaleX;
       var y = (event.clientY - rect.top) * scaleY;
-    } else {
-      var rect = canvas.getBoundingClientRect();
-      var x = event.clientX - rect.left;
-      var y = event.clientY - rect.top;
-    }
 
     //boolean variable indicating whether click on previous vertice was made
     var inBound = determineIfInbound(x, y);
